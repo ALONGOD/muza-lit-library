@@ -29,7 +29,7 @@ export class MuzaInputField extends LitElement {
       --input-success-border: #4caf50;
       --input-label-color: var(--muza-secondary-text-color, #5f5f5f);
       --input-helper-color: var(--muza-tertiary-text-color, #aaa);
-      
+
       display: block;
       font-family: inherit;
       margin-bottom: var(--muza-spacing-md, 12px);
@@ -59,7 +59,9 @@ export class MuzaInputField extends LitElement {
       transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
     }
 
-    input::placeholder { color: var(--input-placeholder); }
+    input::placeholder {
+      color: var(--input-placeholder);
+    }
     input:focus {
       outline: none;
       border-color: var(--input-focus-border);
@@ -78,12 +80,24 @@ export class MuzaInputField extends LitElement {
     }
 
     /* States */
-    input.error { border-color: var(--input-error-border); }
-    input.error:focus { box-shadow: 0 0 0 1px var(--input-error-border); }
-    input.success { border-color: var(--input-success-border); }
-    input.success:focus { box-shadow: 0 0 0 1px var(--input-success-border); }
-    .helper-text.error { color: var(--input-error-border); }
-    .helper-text.success { color: var(--input-success-border); }
+    input.error {
+      border-color: var(--input-error-border);
+    }
+    input.error:focus {
+      box-shadow: 0 0 0 1px var(--input-error-border);
+    }
+    input.success {
+      border-color: var(--input-success-border);
+    }
+    input.success:focus {
+      box-shadow: 0 0 0 1px var(--input-success-border);
+    }
+    .helper-text.error {
+      color: var(--input-error-border);
+    }
+    .helper-text.success {
+      color: var(--input-success-border);
+    }
 
     /* Sizes */
     input.small {
@@ -96,35 +110,57 @@ export class MuzaInputField extends LitElement {
     }
 
     /* Icons */
-    .leading-icon, .trailing-icon {
+    .leading-icon,
+    .trailing-icon {
       position: absolute;
       top: 50%;
       transform: translateY(-50%);
       color: var(--input-placeholder);
       pointer-events: none;
     }
-    .leading-icon { left: 0.75rem; }
-    .trailing-icon { right: 0.75rem; }
-    input.has-leading-icon { padding-left: 2.5rem; }
-    input.has-trailing-icon { padding-right: 2.5rem; }
+    .leading-icon {
+      left: 0.75rem;
+    }
+    .trailing-icon {
+      right: 0.75rem;
+    }
+    input.has-leading-icon {
+      padding-left: 2.5rem;
+    }
+    input.has-trailing-icon {
+      padding-right: 2.5rem;
+    }
   `;
 
   private _handleInput(e: Event) {
     const input = e.target as HTMLInputElement;
     this.value = input.value;
-    this.dispatchEvent(new CustomEvent('input-change', {
-      detail: { value: this.value, name: this.name },
-      bubbles: true,
-      composed: true
-    }));
+    this.dispatchEvent(
+      new CustomEvent('input-change', {
+        detail: { value: this.value, name: this.name },
+        bubbles: true,
+        composed: true,
+      })
+    );
   }
 
   render() {
     return html`
       <div class="input-wrapper">
-        ${this.label ? html`<label for="input-${this.name}">${this.label} ${this.required ? html`<span class="required">*</span>` : ''}</label>` : ''}
+        ${this.label
+          ? html`<label for="input-${this.name}"
+              >${this.label}
+              ${this.required
+                ? html`<span class="required">*</span>`
+                : ''}</label
+            >`
+          : ''}
         <div class="input-container">
-          ${this.leadingIcon ? html`<span class="leading-icon"><i class="fa-solid fa-${this.leadingIcon}"></i></span>` : ''}
+          ${this.leadingIcon
+            ? html`<span class="leading-icon"
+                ><i class="fa-solid fa-${this.leadingIcon}"></i
+              ></span>`
+            : ''}
           <input
             id="input-${this.name}"
             type="${this.type}"
@@ -133,12 +169,22 @@ export class MuzaInputField extends LitElement {
             placeholder="${this.placeholder}"
             ?required="${this.required}"
             ?disabled="${this.disabled}"
-            class="${this.state} ${this.size} ${this.leadingIcon ? 'has-leading-icon' : ''} ${this.trailingIcon ? 'has-trailing-icon' : ''}"
+            class="${this.state} ${this.size} ${this.leadingIcon
+              ? 'has-leading-icon'
+              : ''} ${this.trailingIcon ? 'has-trailing-icon' : ''}"
             @input="${this._handleInput}"
           />
-          ${this.trailingIcon ? html`<span class="trailing-icon"><i class="fa-solid fa-${this.trailingIcon}"></i></span>` : ''}
+          ${this.trailingIcon
+            ? html`<span class="trailing-icon"
+                ><i class="fa-solid fa-${this.trailingIcon}"></i
+              ></span>`
+            : ''}
         </div>
-        ${this.helperText ? html`<div class="helper-text ${this.state}">${this.helperText}</div>` : ''}
+        ${this.helperText
+          ? html`<div class="helper-text ${this.state}">
+              ${this.helperText}
+            </div>`
+          : ''}
       </div>
     `;
   }
